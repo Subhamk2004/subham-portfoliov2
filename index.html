@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dillion's Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
@@ -390,18 +391,23 @@
         //     experience1Role: "Bitcoin Protocol Engineer",
         //     experience1Duration: "May 2021 - Oct 2022",
         //     experience1Description: "Worked on developing and maintaining Bitcoin-related features and protocols.",
-        //     experience1LogoClass: "atomic",
+        //     experience1LogoClass: "",
         //     experience2Company: "Shopify",
         //     experience2Role: "Software Engineer",
         //     experience2Duration: "January 2021 - April 2021",
         //     experience2Description: "Contributed to the development of e-commerce solutions and tools.",
-        //     experience2LogoClass: "shopify",
+        //     experience2LogoClass: "https://www.pngall.com/wp-content/uploads/13/Shopify-Logo-PNG.png",
         //     // Education (flat structure)
         //     education1Institution: "Buildspace",
         //     education1Degree: "s3, s4, sf1, s5",
         //     education1Duration: "2023 - 2024",
-        //     education1LogoClass: "buildspace",
+        //     education1LogoClass: "https://cdn.pixabay.com/photo/2021/08/11/02/30/university-6537164_640.jpg",
         //     education1Score: "CGPA - 8.32",
+        //     education2Institution: "University of California, Berkeley",
+        //     education2Degree: "B.S. in Computer Science & Business Administration",
+        //     education2Duration: "2017 - 2021",
+        //     education2LogoClass: "",
+        //     education2Score: "CGPA - 3.8/4.0",
         //     // Contact Info
         //     contactLocation: "San Francisco, CA",
         //     contactEmail: "dillion@example.com",
@@ -475,7 +481,7 @@
                 const company = data[`experience${i}Company`];
                 const role = data[`experience${i}Role`];
                 const duration = data[`experience${i}Duration`];
-                const logoClass = data[`experience${i}LogoClass`] || "atomic";
+                const logoClass = data[`experience${i}LogoClass`] || "";
                 const description = data[`experience${i}Description`];
 
                 if (company) {
@@ -488,22 +494,27 @@
                     const descId = `desc-${i}-${Date.now()}`;
 
                     experienceElement.innerHTML = `
-                    <div class="company-logo-gradient-${logoClass} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-lg transition-transform duration-300 md:group-hover:scale-110">${company.charAt(0)}</div>
-                    <div class="flex-1 text-center md:text-left">
-                        <div class="font-semibold text-lg flex items-center">
-                            ${company}
-                            <svg xmlns="http://www.w3.org/2000/svg" class="chevron-toggle w-4 h-4 ml-1 text-white transition-transform duration-300 opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>    
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden border-[0.5px] font-bold text-lg transition-transform duration-300 md:group-hover:scale-110 text-black ${logoClass ? '' : 'bg-white'}">
+                            ${logoClass.length > 0
+                                ? `<img src="${logoClass}" alt="${company}" class="w-full h-full object-cover" />`
+                                : company.charAt(0)
+                            }
                         </div>
-                        <div class="text-[#999]">${role || ''}</div>
-                        <div id="${descId}" class="description-container overflow-hidden transition-all duration-500 max-h-0 opacity-0">
-                            <div class="w-full text-[#ccc] mt-2 pt-2 ">${description || ''}</div>
+                        <div class="flex-1 text-center md:text-left">
+                            <div class="font-semibold text-lg flex items-center">
+                                ${company}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="chevron-toggle w-4 h-4 ml-1 text-white transition-transform duration-300 opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>    
+                            </div>
+                            <div class="text-[#999]">${role || ''}</div>
+                            <div id="${descId}" class="description-container overflow-hidden transition-all duration-500 max-h-0 opacity-0">
+                                <div class="w-full text-[#ccc] mt-2 pt-2 ">${description || ''}</div>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="text-[#666] text-sm whitespace-nowrap">${duration || ''}</div>
-                `;
+    
+                        <div class="text-[#666] text-sm whitespace-nowrap">${duration || ''}</div>
+                    `;
 
                     experienceContainer.appendChild(experienceElement);
 
@@ -539,7 +550,7 @@
                 const institution = data[`education${i}Institution`];
                 const degree = data[`education${i}Degree`];
                 const duration = data[`education${i}Duration`];
-                const logoClass = data[`education${i}LogoClass`] || "buildspace";
+                const logoClass = data[`education${i}LogoClass`] || "";
                 const cgpa = data[`education${i}Score`];
 
                 if (institution) {
@@ -547,7 +558,12 @@
                     const educationElement = document.createElement("div");
                     educationElement.className = "flex flex-col md:flex-row md:items-center gap-5 p-5 bg-white bg-opacity-5 rounded-xl border border-white border-opacity-10 transition-all duration-300 hover:bg-opacity-8 hover:-translate-y-0.5";
                     educationElement.innerHTML = `
-                        <div class="company-logo-gradient-${logoClass} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-lg">${institution.charAt(0)}</div>
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${logoClass ? '' : 'company-logo-gradient-buildspace'} font-bold text-lg">
+                        ${logoClass.length > 0
+                            ? `<img src="${logoClass}" alt="${institution}" class="w-full h-full object-cover" />`
+                            : institution.charAt(0)
+                        }
+                        </div>
                         <div class="flex-1 text-center md:text-left">
                             <div class="font-semibold text-lg">${institution}</div>
                             <div class="text-[#999]">${degree || ''}</div>
@@ -665,19 +681,23 @@
                     const achievementElement = document.createElement("div");
                     achievementElement.className = "flex flex-col md:flex-row md:items-center gap-5 p-5 mb-4 bg-white bg-opacity-5 rounded-xl border border-white border-opacity-10 transition-all duration-300 hover:bg-opacity-8 hover:-translate-y-0.5 hover:shadow-xl group";
                     achievementElement.innerHTML = `
-                        <div class="company-logo-gradient-atomic w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-lg">🏆</div>
+                        <div class="bg-white w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        ${image
+                            ? `<img src="${image}" alt="${title}" class="w-full h-full object-cover rounded-full" />`
+                            : `<i class="fa-solid fa-trophy font-bold text-lg" style="color: #000"></i>`
+                        }
+                        </div>
                         <div class="flex-1 text-center md:text-left">
                             <a ${image && `href=${image} target="_blank" aria-label="View certificate"`} class="font-semibold text-lg ${image && "hover:underline"}">
                                 ${title}
                                 ${image ? `<svg xmlns="http://www.w3.org/2000/svg" class="inline w-4 h-4 ml-1 text-white transition-transform duration-300 opacity-0 group-hover:opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                    </svg>` : ''
-                        }
+                                    </svg>` : ''}
                             </a>
                             <div class="text-[#999]">${description || ''}</div>
                         </div>
                         <div class="text-[#666] text-sm whitespace-nowrap">${date || ''}</div>
-                    `;
+`;
                     achievementsContainer.appendChild(achievementElement);
                 }
             }
